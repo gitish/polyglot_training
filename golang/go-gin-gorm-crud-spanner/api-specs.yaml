@@ -1,0 +1,182 @@
+openapi: 3.0.3
+info:
+  title: Users - OpenAPI 3.0
+  description: |-
+    This is a sample CRUD operations application with Golang, GORM, Gin, Spanner.
+    
+    Some useful links:
+    - [Create and query a database using the Google Cloud console](https://cloud.google.com/spanner/docs/create-query-database-console)
+    - [Install the Google Cloud CLI](https://cloud.google.com/sdk/docs/install-sdk)
+    - [GORM Guides](https://gorm.io/docs/index.html)
+    - [Gin Web Framework](https://gin-gonic.com/docs/quickstart/)
+    - [Go](https://go.dev/doc/tutorial/getting-started)
+  version: 1.0.11
+servers:
+  - url: http://localhost:8081
+tags:
+  - name: user
+    description: Operations about user
+paths:
+  /users:
+    post:
+      tags:
+        - user
+      summary: Create user
+      operationId: createUser
+      requestBody:
+        description: Created user object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'          
+        '400':
+          description: Invalid input
+        '500':
+          description: failed operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    get:
+      tags:
+        - user
+      summary: Get users
+      operationId: getUsers
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '500':
+          description: failed operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /users/{id}:
+    get:
+      tags:
+        - user
+      summary: Get user by id
+      description: ''
+      operationId: getUserById
+      parameters:
+        - name: id
+          in: path
+          description: 'The user id that needs to be fetched. Use 1 for testing. '
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'          
+        '400':
+          description: Invalid user ID
+        '500':
+          description: failed operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      tags:
+        - user
+      summary: Update user
+      operationId: updateUser
+      parameters:
+        - name: id
+          in: path
+          description: id that need to be updated
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        description: Update an existent user in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'          
+        '400':
+          description: Invalid input
+        '500':
+          description: failed operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      tags:
+        - user
+      summary: Delete user
+      operationId: deleteUser
+      parameters:
+        - name: id
+          in: path
+          description: The id that needs to be deleted
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'          
+        '400':
+          description: Invalid user ID
+        '500':
+          description: failed operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        name:
+          type: string
+          example: John
+        email:
+          type: string
+          example: john@email.com
+    Message:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Message
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          example: Failed operation
