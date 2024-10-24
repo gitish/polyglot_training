@@ -1,0 +1,10 @@
+{
+    "cities": [
+      {"name": "New York", "temperature": 22.5},
+      {"name": "Los Angeles", "temperature": 25.3},
+      {"name": "Chicago", "temperature": 18.7},
+      {"name": "Houston", "temperature": 30.1},
+      {"name": "Phoenix", "temperature": 33.4}
+    ]
+  }
+  
