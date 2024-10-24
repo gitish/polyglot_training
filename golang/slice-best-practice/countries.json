@@ -1,0 +1,9 @@
+{
+    "countries": [
+        {"country": "USA", "capital": "Washington, D.C."},
+        {"country": "Canada", "capital": "Ottawa"},
+        {"country": "France", "capital": "Paris"},
+        {"country": "Germany", "capital": "Berlin"},
+        {"country": "Australia", "capital": "Canberra"}
+    ]
+}
