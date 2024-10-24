@@ -15,15 +15,15 @@ type CityTemperatureOriginal struct {
 
 // Optimized struct (arranged for better memory usage)
 type CityTemperatureOptimized struct {
-	City            string
-	IsCoastal       bool
-	Temperature     float64
-	PopularityScore int
-	RegionID        int
+	Temperature     float64 // 8 bytes
+	RegionID        int     // 8 bytes (on 64-bit systems)
+	PopularityScore int     // 8 bytes
+	IsCoastal       bool    // 1 byte
+	City            string  // 16 bytes
 }
 
-// Simulated dataset with more cities
-var cityTemperatures = map[string]CityTemperatureOriginal{
+// Simulated dataset for original struct
+var cityTemperaturesOriginal = map[string]CityTemperatureOriginal{
 	"New York":      {"New York", 25.5, 1, false, 2},
 	"Los Angeles":   {"Los Angeles", 30.0, 2, false, 1},
 	"Chicago":       {"Chicago", 20.0, 3, true, 3},
@@ -38,9 +38,25 @@ var cityTemperatures = map[string]CityTemperatureOriginal{
 	"Philadelphia":  {"Philadelphia", 24.0, 12, false, 10},
 }
 
+// Simulated dataset for optimized struct
+var cityTemperaturesOptimized = map[string]CityTemperatureOptimized{
+	"New York":      {25.5, 1, 2, false, "New York"},
+	"Los Angeles":   {30.0, 2, 1, false, "Los Angeles"},
+	"Chicago":       {20.0, 3, 3, true, "Chicago"},
+	"Houston":       {32.5, 4, 2, false, "Houston"},
+	"Phoenix":       {40.0, 5, 1, false, "Phoenix"},
+	"San Francisco": {18.0, 6, 4, true, "San Francisco"},
+	"Miami":         {35.0, 7, 5, true, "Miami"},
+	"Seattle":       {15.0, 8, 6, true, "Seattle"},
+	"Denver":        {28.0, 9, 7, false, "Denver"},
+	"Boston":        {22.0, 10, 8, true, "Boston"},
+	"Atlanta":       {29.0, 11, 9, true, "Atlanta"},
+	"Philadelphia":  {24.0, 12, 10, false, "Philadelphia"},
+}
+
 // Fetch temperature for the original struct with added memory allocation
 func fetchTemperatureOriginal(city string) (float64, error) {
-	data, ok := cityTemperatures[city]
+	data, ok := cityTemperaturesOriginal[city]
 	if !ok {
 		return 0, fmt.Errorf("city not found")
 	}
@@ -56,7 +72,7 @@ func fetchTemperatureOriginal(city string) (float64, error) {
 func fetchTemperatureOptimized(city string) (float64, error) {
 	// Create a local slice to simulate an allocation
 	tempSlice := make([]float64, 1000) // Allocate a larger slice
-	data, ok := cityTemperatures[city]
+	data, ok := cityTemperaturesOptimized[city]
 	if !ok {
 		return 0, fmt.Errorf("city not found")
 	}

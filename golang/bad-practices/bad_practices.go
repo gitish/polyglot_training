@@ -32,7 +32,7 @@ func main() {
 
 	// Panic for error handling
 	r.GET("/average-temperature", func(c *gin.Context) {
-		if err := loadCityData("data1.json"); err != nil {
+		if err := loadCityData("data.json"); err != nil {
 			panic(err) // Using panic instead of proper error handling
 		}
 

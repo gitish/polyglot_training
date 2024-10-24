@@ -23,22 +23,26 @@ var log = logrus.New()
 var cityData CityData
 
 func main() {
-	// Set up logging
+	// Set up structured logging with Logrus
 	log.SetFormatter(&logrus.JSONFormatter{})
 	log.SetReportCaller(true)
 
-	// Load city data from JSON file
-	if err := loadCityData("data1.json"); err != nil {
-		log.Fatalf("Error loading city data: %v", err)
+	// Load city data from a JSON file
+	if err := loadCityData("data.json"); err != nil {
+		log.WithFields(logrus.Fields{
+			"filename": "data.json",
+			"error":    err.Error(),
+		}).Fatal("Error loading city data")
 	}
 
 	r := gin.New()
-	r.Use(gin.LoggerWithWriter(log.Writer())) // Log to logrus
+	r.Use(gin.LoggerWithWriter(log.Writer())) // Log requests to Logrus
 	r.Use(gin.Recovery())                     // Recover from panics
 
 	// Endpoint to get the average temperature of all cities
 	r.GET("/average-temperature", func(c *gin.Context) {
 		avgTemp := calculateAverageTemperature()
+		log.WithField("average_temperature", avgTemp).Info("Calculated average temperature")
 		c.JSON(http.StatusOK, gin.H{"average_temperature": avgTemp})
 	})
 
@@ -47,10 +51,17 @@ func main() {
 		cityName := c.Param("city")
 		temp, err := getTemperatureByCity(cityName)
 		if err != nil {
-			log.Errorf("Error fetching temperature for city %s: %v", cityName, err)
+			log.WithFields(logrus.Fields{
+				"city":  cityName,
+				"error": err.Error(),
+			}).Error("City not found")
 			c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
 			return
 		}
+		log.WithFields(logrus.Fields{
+			"city":        cityName,
+			"temperature": temp,
+		}).Info("Fetched city temperature")
 		c.JSON(http.StatusOK, gin.H{"city": cityName, "temperature": temp})
 	})
 
@@ -61,11 +72,24 @@ func main() {
 func loadCityData(filename string) error {
 	file, err := os.Open(filename)
 	if err != nil {
+		log.WithFields(logrus.Fields{
+			"filename": filename,
+			"error":    err.Error(),
+		}).Error("Failed to open city data file")
 		return fmt.Errorf("could not open file: %w", err)
 	}
 	defer file.Close()
 
-	return json.NewDecoder(file).Decode(&cityData)
+	err = json.NewDecoder(file).Decode(&cityData)
+	if err != nil {
+		log.WithFields(logrus.Fields{
+			"filename": filename,
+			"error":    err.Error(),
+		}).Error("Failed to decode JSON city data")
+		return err
+	}
+	log.WithField("filename", filename).Info("Successfully loaded city data")
+	return nil
 }
 
 // Calculate the average temperature of all cities
