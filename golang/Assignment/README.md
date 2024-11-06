@@ -98,3 +98,113 @@ Implement a basic shopping cart where users can add, view, and remove items.
     - Allow the user to add products to a shopping cart, view the cart, and remove items.
     - Display the total price of items in the cart when requested.
 * Concepts Covered: Structs, slices, functions, basic input handling.
+
+# Assignment 11: Concurrent Sum Calculator
+## Description: 
+Write a program that calculates the sum of all integers in a slice concurrently by dividing the slice into two halves and summing each half in separate goroutines.
+
+* Requirements:
+    - Split the slice of integers into two halves.
+    - Use two goroutines to calculate the sum of each half concurrently.
+    - Use channels to retrieve the partial sums and calculate the total sum in the main function.
+    - Print the total sum.
+* Concepts Covered: Goroutines, channels, concurrent calculations.
+
+# Assignment 12: Prime Number Checker with Goroutines
+## Description: 
+Create a program that checks if multiple numbers are prime concurrently.
+
+* Requirements:
+    - Take a list of integers as input.
+    - Use a goroutine to check if each number is prime.
+    - Use a channel to send the result (whether each number is prime) back to the main function.
+    - Print the results after all goroutines finish.
+* Concepts Covered: Goroutines, channels, synchronization.
+
+# Assignment 13: Worker Pool Implementation
+## Description: 
+Implement a worker pool that processes a set of tasks concurrently.
+
+* Requirements:
+    - Define a task as a function that takes an integer and performs a time-consuming operation (e.g., calculating factorial).
+    - Use multiple worker goroutines to process tasks concurrently.
+    - Use a channel to send tasks to the worker pool and another channel to collect results.
+    - Limit the number of concurrent workers (e.g., 3 workers).
+* Concepts Covered: Goroutines, channels, worker pool pattern, channel buffering.
+
+# Assignment 14: Concurrent Web Scraper
+## Description: 
+Create a basic web scraper that fetches data from multiple URLs concurrently.
+
+* Requirements:
+    - Define a list of URLs.
+    - Use goroutines to fetch data from each URL concurrently.
+    - Use channels to send the fetched data back to the main function.
+    - Print the response length or status for each URL after all goroutines complete.
+* Concepts Covered: Goroutines, channels, concurrency control, network operations.
+
+# Assignment 15: Ping-Pong Simulation with Channels
+## Description: 
+Simulate a ping-pong game where two goroutines "ping" and "pong" each other using a channel.
+
+* Requirements:
+    - Create two goroutines, ping and pong.
+    - Use a channel to pass a message back and forth between the goroutines.
+    - Stop the game after a certain number of "ping-pong" exchanges (e.g., 10 rounds).
+    - Print each "ping" and "pong" to the console.
+* Concepts Covered: Goroutines, channels, back-and-forth message passing.
+
+# Assignment 16: Race Condition Detector
+## Description: 
+Write a program that demonstrates a race condition and then uses channels to avoid it.
+
+* Requirements:
+    - Create a shared variable (e.g., a counter).
+    - Start multiple goroutines that increment this counter without using channels to see the race condition in action.
+    - Use channels to control access to the shared variable and avoid the race condition.
+    - Print the counter's final value to verify correct results.
+* Concepts Covered: Race conditions, goroutines, channels for synchronization.
+
+# Assignment 17: Fibonacci Sequence Generator with Channels
+## Description: 
+Implement a program that generates Fibonacci numbers concurrently.
+
+* Requirements:
+    - Use a goroutine to generate Fibonacci numbers and send them to a channel.
+    - In the main function, receive numbers from the channel and print the first N Fibonacci numbers (where N is provided by the user).
+    - Ensure the program exits cleanly after printing N numbers.
+* Concepts Covered: Goroutines, channels, concurrency with sequential data generation.
+
+# Assignment 18: Producer-Consumer Pattern
+## Description: 
+Implement a producer-consumer model using channels where one goroutine produces random numbers, and another consumes them.
+
+* Requirements:
+    - Create a producer goroutine that generates random numbers and sends them to a channel.
+    - Create a consumer goroutine that receives numbers from the channel and prints them.
+    - Run the program for a fixed number of items or seconds, and ensure it exits cleanly.
+* Concepts Covered: Goroutines, channels, producer-consumer pattern.
+
+# Assignment 19: Parallel Matrix Multiplication
+## Description: 
+Write a program that multiplies two matrices concurrently by assigning each row’s computation to a separate goroutine.
+
+* Requirements:
+    - Define two matrices and multiply them.
+    - Use goroutines to calculate the result of each row in parallel.
+    - Use channels to collect the results from each goroutine.
+    - Print the resulting matrix.
+* Concepts Covered: Goroutines, channels, concurrent data processing.
+
+# Assignment 20: Timeout with Channels
+## Description: 
+Implement a program that performs a time-consuming operation but stops if it takes too long.
+
+* Requirements:
+    - Create a function that simulates a time-consuming operation (e.g., sleep).
+    - Use a channel to signal the operation’s completion.
+    - Use select to implement a timeout so that if the operation takes too long, a timeout message is printed instead.
+    - Print whether the operation finished successfully or timed out.
+* Concepts Covered: Channels, select statement, timeouts, concurrency control.
+
+
